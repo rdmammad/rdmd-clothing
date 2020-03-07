@@ -23,7 +23,21 @@
   }
 
   .quantity {
-    padding-left: 20px;
+    display: flex;
+
+    .arrow{
+      cursor: pointer;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .value{
+      margin: 0 10px;
+    }
   }
 
   .remove-button {
