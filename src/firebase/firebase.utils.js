@@ -16,10 +16,8 @@ const config = {
 export const createUserProfileDocument = async (userAuth, additionalData)=>{
   if(!userAuth) return;
 
-  const userRef = firestore.doc(`users/${userAuth.uid}`);
-  const snapShot = await userRef.get();
-
-  // console.log(snapShot);
+  const userRef = firestore.doc(`users/${userAuth.uid}`);     //documentReference
+  const snapShot = await userRef.get();                                     //documentReference
 
   if(!snapShot.exists){
     const {displayName, email} = userAuth;
@@ -39,6 +37,24 @@ export const createUserProfileDocument = async (userAuth, additionalData)=>{
   }
 
   return userRef;
+};
+
+export const convertCollectionsSnapshotToMap = collections => {
+    const transformedCollection = collections.docs.map(doc => {
+        const {title, items} = doc.data();
+
+        return {
+            routeTitle: encodeURI(title.toLowerCase()),
+            id: doc.id,
+            title,
+            items
+        };
+    });
+
+   return transformedCollection.reduce((acc, collection) => {
+        acc[collection.title.toLowerCase()] = collection;
+        return acc;
+    }, {});
 };
 
 firebase.initializeApp(config);
