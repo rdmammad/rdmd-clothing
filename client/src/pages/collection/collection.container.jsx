@@ -21,10 +21,12 @@ const GET_COLLECTION_BY_TITLE = gql`
 `;
 
 const CollectionPageContainer = ({match}) => (
-    <Query query={GET_COLLECTION_BY_TITLE} variables={{title: match.params.collectionId}}>
+    <Query query={GET_COLLECTION_BY_TITLE} variables={{ title: match.params.collectionId }}>
         {
-            ({loading, data}) =>
-                loading ? <Spinner/> : <CollectionPage collection={data.getCollectionsByTitle}/>
+            ({loading, data}) => {
+                if(loading) return <Spinner />;
+                return <CollectionPage collection={data.getCollectionsByTitle}/>
+            }
         }
     </Query>
 );
