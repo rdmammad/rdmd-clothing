@@ -13,9 +13,9 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 import {setCurrentUser} from "./redux/user/user.actions";
 import {selectCurrentUser} from "./redux/user/user.selectors";
 
-import './App.css';
+import {GlobalStyle} from "./global.styles";
 
-const App = ({setCurrentUser}) => {
+const App = ({setCurrentUser, currentUser}) => {
     let unsubscribeFromAuth = null;
 
     useEffect(() => {
@@ -39,17 +39,18 @@ const App = ({setCurrentUser}) => {
     }, []);
 
     return (
-        <div>
+        <>
+            <GlobalStyle/>
             <Header/>
             <Switch>
                 <Route exact path="/" component={HomePage}/>
                 <Route path="/shop" component={ShopPage}/>
                 <Route exact path="/signin"
-                       render={() => this.props.currentUser ? (<Redirect to="/"/>) : (<SignInAndSignUpPage/>)}/>
+                       render={() => currentUser ? (<Redirect to="/"/>) : (<SignInAndSignUpPage/>)}/>
                 <Route exact path="/checkout" component={CheckoutPage}/>
                 <Route path="*" component={NotFoundPage}/>
             </Switch>
-        </div>
+        </>
     );
 }
 
