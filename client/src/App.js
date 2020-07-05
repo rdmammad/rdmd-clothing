@@ -8,6 +8,7 @@ import Header from "./components/header/header.component";
 import {setCurrentUser} from "./redux/user/user.actions";
 import {selectCurrentUser} from "./redux/user/user.selectors";
 import Spinner from "./components/spinner/spinner.component";
+import ErrorBoundary from "./components/error-boundary/error-boundary.component";
 
 import {GlobalStyle} from "./global.styles";
 
@@ -45,14 +46,16 @@ const App = ({setCurrentUser, currentUser}) => {
             <GlobalStyle/>
             <Header/>
             <Switch>
-                <Suspense fallback={Spinner}>
-                    <Route exact path="/" component={HomePage}/>
-                    <Route path="/shop" component={ShopPage}/>
-                    <Route exact path="/signin"
-                           render={() => currentUser ? (<Redirect to="/"/>) : (<SignInAndSignUpPage/>)}/>
-                    <Route exact path="/checkout" component={CheckoutPage}/>
-                    <Route path="*" component={NotFoundPage}/>
-                </Suspense>
+                <ErrorBoundary>
+                    <Suspense fallback={Spinner}>
+                        <Route exact path="/" component={HomePage}/>
+                        <Route path="/shop" component={ShopPage}/>
+                        <Route exact path="/signin"
+                               render={() => currentUser ? (<Redirect to="/"/>) : (<SignInAndSignUpPage/>)}/>
+                        <Route exact path="/checkout" component={CheckoutPage}/>
+                        <Route path="*" component={NotFoundPage}/>
+                    </Suspense>
+                </ErrorBoundary>
             </Switch>
         </>
     );
